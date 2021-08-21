@@ -24,6 +24,7 @@ public class ClientesDAO {
         cv.put("cpf", cliente.getCPF());
         cv.put("email", cliente.getEmail());
         cv.put("senha", String.valueOf(cliente.getSenha()));
+        cv.put("telefone",cliente.getTelefone());
 
         Long idGerado = banco.insert(
                 NOME_TABELA_CLIENTES, null, cv);
@@ -37,6 +38,7 @@ public class ClientesDAO {
         cv.put("cpf", cliente.getCPF());
         cv.put("email", cliente.getEmail());
         cv.put("senha", String.valueOf(cliente.getSenha()));
+        cv.put("telefone", cliente.getTelefone());
 
         // parâmetros WHERE da função de alteração
         final String WHERE          = "id = ?";
@@ -119,7 +121,7 @@ public class ClientesDAO {
 
         // parâmetros da função query
         final String TABELA = NOME_TABELA_CLIENTES;
-        final String[] COLUNAS = {"id", "nome",  "cpf", "email", "senha"};
+        final String[] COLUNAS = {"id", "nome",  "cpf", "email", "senha", "telefone"};
         final String WHERE = "id = ? ";
         final String[] WHERE_PARAM = {String.valueOf(id)};
         final String GROUP_BY = null;
@@ -145,6 +147,7 @@ public class ClientesDAO {
             String cpf = cursor.getString(2);
             String email = cursor.getString(3);
             String senha = cursor.getString(4);
+            String telefone = cursor.getString(5);
 
 
             cliente = new Cliente();
@@ -154,6 +157,7 @@ public class ClientesDAO {
             cliente.setCPF(cpf);
             cliente.setEmail(email);
             cliente.setSenha(senha);
+            cliente.setTelefone(telefone);
 
         }
 

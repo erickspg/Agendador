@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:duration="400">
+
+<!--    O alfa indica que o item começa invisivel e ficará totalmente visivel, 0 a 1-->
+
+    <alpha
+        android:fromAlpha="0"
+        android:toAlpha="1"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+
+<!--    O translate 'from' para 'to' indica que a animação move 50% para cima da sua altura padrão e irá até a posição 0 -->
+    <translate
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+        android:fromYDelta="50%p"
+        android:toYDelta="0" />
+
+</set>

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CadastrarCliente extends AppCompatActivity {
 
-    private EditText editTextNome, editTextCPF, editTextSenha, editTextEmail;
+    private EditText editTextNome, editTextCPF, editTextSenha, editTextEmail, editTextTelefone;
     private Cliente cliente = null;
     private ClientesDAO conexaoBanco;
 
@@ -26,6 +26,7 @@ public class CadastrarCliente extends AppCompatActivity {
         editTextEmail = findViewById(R.id.email);
         editTextCPF = findViewById(R.id.cpf);
         editTextSenha = findViewById(R.id.senha2);
+        editTextTelefone = findViewById(R.id.telefone);
 
     }
 
@@ -39,6 +40,7 @@ public class CadastrarCliente extends AppCompatActivity {
         String CPF = editTextCPF.getText().toString();
         String email = editTextEmail.getText().toString();
         String senha = editTextSenha.getText().toString();
+        String telefone = editTextTelefone.getText().toString();
 
         // condicional para inclusão e edição
         if(cliente == null){ // inclusão
@@ -49,6 +51,7 @@ public class CadastrarCliente extends AppCompatActivity {
             cliente.setEmail(email);
             cliente.setCPF(CPF);
             cliente.setSenha(senha);
+            cliente.setTelefone(telefone);
 
             // executa operação do banco
             conexaoBanco.inserir(cliente);
@@ -76,6 +79,7 @@ public class CadastrarCliente extends AppCompatActivity {
         String cpf = editTextCPF.getText().toString();
         String senha = editTextSenha.getText().toString();
         String email = editTextEmail.getText().toString();
+        String telefone = editTextTelefone.getText().toString();
 
         if (cpf.isEmpty()) {
             editTextCPF.setError("O campo CPF é obrigatório!");
@@ -98,6 +102,12 @@ public class CadastrarCliente extends AppCompatActivity {
         if (email.isEmpty()) {
             editTextEmail.setError("O campo de email é obrigatório!");
             editTextEmail.requestFocus();
+            return false;
+        }
+
+        if (telefone.isEmpty()) {
+            editTextTelefone.setError("O campo de telefone é obrigatório!");
+            editTextTelefone.requestFocus();
             return false;
         }
 

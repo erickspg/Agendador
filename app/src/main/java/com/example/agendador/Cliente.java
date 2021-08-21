@@ -4,10 +4,7 @@ public class Cliente {
 
     // atributos da classe Cliente
     private int id;
-    private String nome;
-    private String cpf;
-    private String email;
-    private String senha;
+    private String nome, cpf, email, senha, telefone;
 
     // métodos da classe Cliente
     public int getId() {
@@ -48,6 +45,14 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     @Override

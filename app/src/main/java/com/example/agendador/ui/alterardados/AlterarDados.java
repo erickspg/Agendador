@@ -1,32 +1,34 @@
-package com.example.agendador.ui.notifications;
+package com.example.agendador.ui.alterardados;
 
-import android.content.Context;
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.agendador.Cliente;
 import com.example.agendador.ClientesDAO;
 import com.example.agendador.R;
 
-public class NotificationsFragment extends Fragment {
+public class AlterarDados extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
-    private EditText editTextNome, editTextCPF, editTextSenha, editTextEmail;
+    private EditText editTextNome, editTextCPF, editTextSenha, editTextEmail, editTextTelefone;
     private Button btnAlterar;
     private Cliente cliente = null;
+    private static final int PERMISSION_SEND_SMS = 123;
 
     // objeto para manipular dados
     private ClientesDAO conexaoBanco;
@@ -35,15 +37,14 @@ public class NotificationsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        View root = inflater.inflate(R.layout.fragment_alterardados, container, false);
 
         conexaoBanco = new ClientesDAO(getActivity().getBaseContext());
         editTextNome = root.findViewById(R.id.nomeAlt);
         editTextEmail = root.findViewById(R.id.emailAlt);
         editTextCPF = root.findViewById(R.id.cpfAlt);
         editTextSenha = root.findViewById(R.id.senha2Alt);
+        editTextTelefone = root.findViewById(R.id.telefoneAlt);
         btnAlterar = root.findViewById(R.id.alterar);
 
         btnAlterar.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +65,7 @@ public class NotificationsFragment extends Fragment {
         editTextEmail.setText(cliente.getEmail());
         editTextCPF.setText(cliente.getCPF());
         editTextSenha.setText(cliente.getSenha());
+        editTextTelefone.setText(cliente.getTelefone());
 
 //        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -88,34 +90,77 @@ public class NotificationsFragment extends Fragment {
         String CPF = editTextCPF.getText().toString();
         String email = editTextEmail.getText().toString();
         String senha = editTextSenha.getText().toString();
+        String telefone = editTextTelefone.getText().toString();
 
         // altera dados na tabela
         cliente.setNome(nome);
         cliente.setEmail(email);
         cliente.setCPF(CPF);
         cliente.setSenha(senha);
+        cliente.setTelefone(telefone);
 
         // executa operação do banco
         int linhas = conexaoBanco.atualizar(cliente);
 
         // mensagem para o usuário informando sucesso
         if(linhas > 0){
-
-            Toast.makeText(getActivity().getApplicationContext(), "Dados alterados com sucesso",
+            Log.e("update", "update realizado");
+            Toast.makeText(getActivity(), "Dados alterados com sucesso",
                     Toast.LENGTH_SHORT).show();
 
-             //getActivity().finish();
+             permissaoSMS(); //função pra o user aceitar permissao de envio de SMS
 
         } else {
-            Toast.makeText(getActivity().getApplicationContext(),
+            Toast.makeText(getActivity(),
                     "Erro ao alterar dados",
                     Toast.LENGTH_SHORT).show();
             cliente = null; // ajuda na hora de debug
         }
 
-        //}
+
+
+    }
+    private void permissaoSMS() {
+
+        String numero = editTextTelefone.getText().toString();
+        String telefone;
+
+        telefone = "+55"+numero;
+        // check permission is given
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            // request permission (see result in onRequestPermissionsResult() method)
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.SEND_SMS},
+                    PERMISSION_SEND_SMS);
+
+            enviaSMS(telefone, "Organeasy: Os seus dados cadastrais foram alterados");
+        }else{
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "Necessário permissão para o envio de SMS",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
+    private void enviaSMS(String phoneNumber, String message) {
+
+        //Log.e("SMSmethod", "entrei no metodo de envio SMS");
+
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(phoneNumber, null, message, null, null);
+
+            Toast.makeText(getActivity(), "SMS enviada",
+                    Toast.LENGTH_SHORT).show();
+
+             //Log.e("SMS", "sms enviada com sucesso");
+        } catch (Exception e) {
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "Falha no envio da SMS",
+                    Toast.LENGTH_LONG).show();
+             Log.e("SMSError", e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public boolean validaForm() {
         String nome = editTextNome.getText().toString();

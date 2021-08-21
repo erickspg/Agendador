@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Digite seu nome"
+        android:hint="Informe seu nome"
         android:inputType="textPersonName"
         android:textColor="#000"
         android:textColorHint="#92000000"
@@ -43,6 +43,22 @@
         android:textColor="#000"
         android:textColorHint="#92000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/telefone" />
+
+    <EditText
+        android:id="@+id/telefone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="Informe o seu telefone"
+        android:inputType="textEmailAddress"
+        android:textColor="#000"
+        android:textColorHint="#92000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/senha2" />
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layoutAnimation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:animation="@anim/item_baixo_p_cima"
+    android:delay="50%"
+    android:animationOrder="normal"
+    />
+
+<!--  Delay: se refere ao atraso no inicio de cada item, 0% todos os itens carregam simultaneo, 100% um item de cada vez-->
+<!--         AnimationOrder: ramdom, reverse e normal. Normal segue a ordem natural. (Horiz: da esquerda p direita, vert: de cima p baixo..)-->

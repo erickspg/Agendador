@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.notifications.NotificationsFragment">
+    tools:context=".ui.alterardados.AlterarDados">
 
     <TextView
         android:id="@+id/textTop"
@@ -35,6 +35,20 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cpfAlt" />
+
+    <EditText
+        android:id="@+id/telefoneAlt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Digite seu telefone"
+        android:inputType="textPersonName"
+        android:textColor="#000"
+        android:textColorHint="#92000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/senha2Alt" />
 
     <EditText
         android:id="@+id/cpfAlt"
@@ -84,7 +98,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:background="#000"
         android:text="Alterar Dados"
         android:textColor="#fff"
@@ -92,6 +106,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senha2Alt" />
+        app:layout_constraintTop_toBottomOf="@+id/telefoneAlt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,8 @@ public class Banco extends SQLiteOpenHelper {
     // 1 - nome do banco de dados
     private final static String NOME_BANCO ="DB01";
     // 2 - versão mais atual da minha APP
-    private final static int VERSAO_APP = 3;
+    private final static int VERSAO_APP = 6;
+
 
     // criar construtor
     public Banco(Context activityEmExecucao){
@@ -23,23 +24,25 @@ public class Banco extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // função para criação da tabela no banco de dados
+
         db.execSQL("CREATE TABLE clientes (" +
                 " id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " nome TEXT, " +
                 " cpf TEXT, " +
                 " email TEXT, " +
-                " senha TEXT " +
+                " senha TEXT, " +
+                " telefone TEXT " +
                 " );");
-
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // função executada nas mudanças de versão
+
         db.execSQL("DROP TABLE IF EXISTS clientes;");
-        // chamar o onCreate para criar a tabela
         onCreate(db);
     }
+
 
 }

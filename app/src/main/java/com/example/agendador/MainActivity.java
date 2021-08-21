@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText user, pass;
     private ClientesDAO conexaoBanco;
+    //private static final int REQUEST_CODE = 100;
+    public static String agendamentos = "[{'titulo':'Quadra de futebol','dataAgendamento':'01/08/2021','horaInicio':'19:00:00','status':'Concluído','titulo':'Quadra de futebol','dataAgendamento':'01/08/2021','horaInicio':'19:00:00','status':'Concluído','titulo':'Quadra de futebol','dataAgendamento':'01/08/2021','horaInicio':'19:00:00','status':'Concluído','titulo':'Quadra de futebol','dataAgendamento':'01/08/2021','horaInicio':'19:00:00','status':'Concluído','titulo':'Quadra de futebol','dataAgendamento':'01/08/2021','horaInicio':'19:00:00','status':'Concluído','titulo':'Quadra de futebol','dataAgendamento':'01/08/2021','horaInicio':'19:00:00','status':'Concluído','titulo':'Quadra de futebol','dataAgendamento':'01/08/2021','horaInicio':'19:00:00','status':'Concluído'}]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +34,51 @@ public class MainActivity extends AppCompatActivity {
         pass = findViewById(R.id.pass);
 
         conexaoBanco = new ClientesDAO(getBaseContext());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                agendamentos();
+            }
+        }).start();
+    }
+
+    public void agendamentos(){
+
+        RequestQueue fila = Volley.newRequestQueue(this);
+        String urlServidor = "http://10.0.2.2:8000/api/agendamentos/";    //Campos do JSON: state / positive / death
+
+
+        // cria a requisição de mensagem e tratamento de resposta
+        StringRequest requisicao = new StringRequest (Request.Method.GET,urlServidor, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String result) {
+
+                agendamentos = result;
+                Log.e("agendamentos", agendamentos);
+
+            }
+        },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        // envia a mensagem ao servidor
+        fila.add(requisicao);
+
+    }
+    public static String getAgendamentos(){
+        return agendamentos;
     }
 
     public void cadastrar(View v){
 
-        //String teste = "testando";
-
         Intent cadastro = new Intent(getBaseContext(), CadastrarCliente.class);
         startActivity(cadastro);
-
-
-        //Log.e("Teste", teste);
 
     }
 
